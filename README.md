@@ -1,3 +1,6 @@
+# Car Trader app
+Ref: https://www.youtube.com/watch?v=Hy4Por0yfqE&list=PLYSZyzpwBEWTt-0uuxAcSrJmMlnD9Yuz3
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
