@@ -13,7 +13,6 @@ import { useRouter } from "next/dist/client/router";
 
 import { getAsString } from "../getAsString";
 import useSWR from "swr";
-import { isBuffer } from "util";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,21 +32,23 @@ const useStyles = makeStyles((theme) => ({
 export interface HomProps {
   makes: Make[];
   models: Model[];
+  singleColumn?: boolean;
 }
 
 const prices = [500, 1000, 5000, 15000, 25000, 50000, 250000];
 
-export default function Home({ makes, models }: HomProps) {
+export default function Search({ makes, models, singleColumn }: HomProps) {
   const router = useRouter();
   const classes = useStyles();
   const { query } = useRouter();
-  console.log("query", query);
+  const smValue = singleColumn ? 12 : 6;
   const intialValues = {
     make: getAsString(query.make) || "all",
     model: getAsString(query.model) || "all",
     minPrice: getAsString(query.minPrice) || "all",
     maxPrice: getAsString(query.maxPrice) || "all",
   };
+
   return (
     <Formik
       initialValues={intialValues}
@@ -55,7 +56,7 @@ export default function Home({ makes, models }: HomProps) {
         console.log("submit", values);
         router.push(
           {
-            pathname: "/",
+            pathname: "/cars",
             query: { page: 1, ...values },
           },
           undefined,
@@ -69,7 +70,7 @@ export default function Home({ makes, models }: HomProps) {
         <Form>
           <Paper elevation={5} className={classes.paper}>
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={smValue}>
                 <FormControl fullWidth variant="outlined">
                   <InputLabel id="search-make">Make</InputLabel>
                   <Field
@@ -90,10 +91,10 @@ export default function Home({ makes, models }: HomProps) {
                   </Field>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={smValue}>
                 <ModelSelect name="model" models={models} make={values.make} />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={smValue}>
                 <FormControl fullWidth variant="outlined">
                   <InputLabel id="search-minPrice">Min Price</InputLabel>
                   <Field
@@ -112,7 +113,7 @@ export default function Home({ makes, models }: HomProps) {
                   </Field>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={smValue}>
                 <FormControl fullWidth variant="outlined">
                   <InputLabel id="search-maxPrice">Max Price</InputLabel>
                   <Field
@@ -162,6 +163,7 @@ export function ModelSelect({ models, make, ...props }: ModelSelectProps) {
   console.log("field", field);
 
   const { data } = useSWR<Model[]>(`/api/models?make=${make}`, {
+    dedupingInterval: 60000,
     onSuccess: (newValues) => {
       if (!newValues.map((v) => v.model).includes(field.value)) {
         // select all
