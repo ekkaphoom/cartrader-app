@@ -172,7 +172,7 @@ export function ModelSelect({ models, make, ...props }: ModelSelectProps) {
     },
   });
   const newModels = data || models;
-  console.log(data);
+  console.log("newModels", data);
   return (
     <FormControl fullWidth variant="outlined">
       <InputLabel id="search-model">Model</InputLabel>

@@ -18,6 +18,10 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  link: {
+    textDecoration: "none",
+    color: "white",
+  },
 }));
 
 export function Nav() {
@@ -27,7 +31,9 @@ export function Nav() {
     <AppBar position="static">
       <Toolbar variant="dense">
         <Typography variant="h6" className={classes.title}>
-          <Link href="/">Car Trader</Link>
+          <Link href="/">
+            <a className={classes.link}>Car Trader</a>
+          </Link>
         </Typography>
 
         <Button color="inherit">

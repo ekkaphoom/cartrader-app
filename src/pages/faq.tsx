@@ -37,6 +37,6 @@ export default function Faq({ faq }: FaqProps) {
 export const getStaticProps: GetStaticProps = async () => {
   const db = await openDB();
   const faq = await db.all("SELECT * FROM FAQ ORDER BY createDate DESC");
-  console.log(faq);
+  console.log("faq", faq);
   return { props: { faq } };
 };
