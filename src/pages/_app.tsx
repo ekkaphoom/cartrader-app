@@ -8,7 +8,7 @@ import React from "react";
 import { SWRConfig } from "swr";
 import { Nav } from "../components/Nav";
 
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = "http://localhost:3001";
 
 // Create a theme instance.
 export const theme = createTheme({
